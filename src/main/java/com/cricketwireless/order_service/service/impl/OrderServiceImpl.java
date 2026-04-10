@@ -37,6 +37,17 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toOrderResponse(orderRepository.save(updatedEntity));
     }
 
+    @Override
+    public OrderResponse patchOrder(Long id, UpdateOrderRequest request) {
+        OrderEntity updatedEntity = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + id));
+
+        if (request.quantity() != null) {
+            updatedEntity.setQuantity(request.quantity());
+        }
+        return orderMapper.toOrderResponse(orderRepository.save(updatedEntity));
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<OrderResponse> getOrders() {

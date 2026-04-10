@@ -12,6 +12,8 @@ public interface OrderService {
 
     OrderResponse updateOrder(long id, final UpdateOrderRequest updateOrderRequest);
 
+    OrderResponse patchOrder(Long id, UpdateOrderRequest request);
+
     List<OrderResponse> getOrders();
 
     OrderResponse getOrderById(long id);

@@ -24,7 +24,14 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody final CreateOrderRequest createOrderRequest) {
         log.info("Creating order for customer={}", createOrderRequest.customerName());
-        return ResponseEntity.ok().body(orderService.createOrder(createOrderRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(createOrderRequest));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<OrderResponse> patchOrder(@PathVariable Long id,
+                                                    @Valid @RequestBody final UpdateOrderRequest patchOrderRequest) {
+        log.info("Patching order id={}", id);
+        return ResponseEntity.ok(orderService.patchOrder(id, patchOrderRequest));
     }
 
     @PutMapping("/{id}")
