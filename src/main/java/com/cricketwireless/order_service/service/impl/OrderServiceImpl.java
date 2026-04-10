@@ -23,11 +23,13 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
+    @Override
     public OrderResponse createOrder(final CreateOrderRequest orderRequest) {
         final OrderEntity orderEntity = orderMapper.toOrderEntity(orderRequest);
         return orderMapper.toOrderResponse(orderRepository.save(orderEntity));
     }
 
+    @Override
     public OrderResponse updateOrder(long id, final UpdateOrderRequest updateOrderRequest) {
         OrderEntity updatedEntity = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for id: " + id));
@@ -36,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional(readOnly = true)
+    @Override
     public List<OrderResponse> getOrders() {
         return orderRepository.findAll().stream()
                 .map(orderMapper::toOrderResponse)
@@ -43,12 +46,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional(readOnly = true)
+    @Override
     public OrderResponse getOrderById(long id) {
         return orderRepository.findById(id)
                 .map(orderMapper::toOrderResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for id: " + id));
     }
 
+    @Override
     public void deleteOrderById(long id) {
         OrderEntity entity = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for id: " + id));

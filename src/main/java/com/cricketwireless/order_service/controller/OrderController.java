@@ -24,13 +24,13 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody final CreateOrderRequest createOrderRequest) {
         log.info("Creating order for customer={}", createOrderRequest.customerName());
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(createOrderRequest));
+        return ResponseEntity.ok().body(orderService.createOrder(createOrderRequest));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<OrderResponse> updateOrder(@PathVariable long id, @Valid @RequestBody final UpdateOrderRequest updateOrderRequest) {
         log.info("Updating order id={} with quantity={}", id, updateOrderRequest.quantity());
-        return ResponseEntity.ok().body(orderService.updateOrder(id, updateOrderRequest));
+        return ResponseEntity.ok(orderService.updateOrder(id, updateOrderRequest));
     }
 
     @GetMapping
